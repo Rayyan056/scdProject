@@ -9,10 +9,11 @@
  */
 
 import java.rmi.*;
+import java.util.List;
 
 public interface ICarShowRoom extends Remote {
     public void addCar(Car obj) throws RemoteException;
     public void deleteCar(int id);
     public void updateCar(Car obj);
-    public Car getCars();
+    public List<Car> getCars();
 }
