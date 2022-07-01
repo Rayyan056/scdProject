@@ -123,10 +123,20 @@ public class AddCarForm extends javax.swing.JFrame {
         plateNumber.setBounds(270, 290, 180, 30);
 
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
         getContentPane().add(addButton);
         addButton.setBounds(300, 360, 90, 40);
 
         backButton.setText("Go Back");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
         getContentPane().add(backButton);
         backButton.setBounds(40, 60, 100, 23);
 
@@ -143,6 +153,38 @@ public class AddCarForm extends javax.swing.JFrame {
     private void modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_modelActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        ShowRoomForm obj = new ShowRoomForm();
+        this.dispose();
+        obj.setVisible(true);
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            if(name.getText().trim().isEmpty() || model.getText().trim().isEmpty() || color.getText().trim().isEmpty() || plateNumber.getText().trim().isEmpty()){
+                errorLabel.setText("Please enter all fields !!!");
+                return;
+            }
+            ShowRoomClient client = new ShowRoomClient();
+            ICarShowRoom showRoomStub = client.getStub();
+            Car car = new Car();
+            car.setName(name.getText());
+            car.setModel(model.getText());
+            car.setColor(color.getText());
+            car.setPlateNumber(plateNumber.getText());
+            showRoomStub.addCar(car);
+            errorLabel.setText("Car Added Successfully....");
+            name.setText("");
+            model.setText("");
+            color.setText("");
+            plateNumber.setText("");
+        } catch (Exception e) {
+            errorLabel.setText(e.getMessage());
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
 
     /**
      * @param args the command line arguments
