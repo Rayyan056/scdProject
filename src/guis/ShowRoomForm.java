@@ -4,14 +4,18 @@
  */
 package guis;
 
+import classesAndInterfaces.Car;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Hp 820
- */
+import classesAndInterfaces.ShowRoomClient;
+import classesAndInterfaces.ICarShowRoom;
+import com.mysql.cj.protocol.Resultset;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ShowRoomForm extends javax.swing.JFrame {
 
     /**
@@ -20,26 +24,62 @@ public class ShowRoomForm extends javax.swing.JFrame {
     public ShowRoomForm() {
         initComponents();
         scaledImage();
-        setSize(700,550);
+        setSize(700, 550);
         buttonsEnabled(false);
+        try {
+            getCars();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
-    
-    public void buttonsEnabled(Boolean status){
+
+    public DefaultTableModel getModel() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Name");
+        model.addColumn("Model");
+        model.addColumn("Color");
+        model.addColumn("Plate Number");
+        return model;
+    }
+
+    public void getCars() {
+        try {
+            ShowRoomClient client = new ShowRoomClient();
+            ICarShowRoom showRoomStub = client.getStub();
+            ArrayList<Car> cars = showRoomStub.getCars();
+            DefaultTableModel model = new DefaultTableModel();
+            model = getModel();
+            for (Car car : cars) {
+                car.display();
+                Object[] obj = new Object[]{car.getId(), car.getName(), car.getModel(), car.getColor(), car.getPlateNumber()};
+                model.addRow(obj);
+            }
+            table.setModel(model);
+        } catch (RemoteException e) {
+            System.err.println(e.getMessage());
+        }
+
+    }
+
+    public void buttonsEnabled(Boolean status) {
         deleteButton.setEnabled(status);
         updateButton.setEnabled(status);
     }
-    public void scaledImage(){
+
+    public void scaledImage() {
         try {
             ImageIcon icon = new ImageIcon(getClass().getResource("showRoomWallpaper.jpg"));
-        Image img = icon.getImage();
-        Image scaleImg = img.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaleImg);
-        imageLabel.setIcon(scaledIcon);
+            Image img = icon.getImage();
+            Image scaleImg = img.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(scaleImg);
+            imageLabel.setIcon(scaledIcon);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,7 +91,7 @@ public class ShowRoomForm extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
@@ -67,7 +107,7 @@ public class ShowRoomForm extends javax.swing.JFrame {
         getContentPane().add(jLabel1);
         jLabel1.setBounds(281, 11, 189, 42);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -75,7 +115,7 @@ public class ShowRoomForm extends javax.swing.JFrame {
                 "ID", "Name", "Model", "Color", "Plate Number"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(140, 120, 452, 402);
@@ -167,7 +207,7 @@ public class ShowRoomForm extends javax.swing.JFrame {
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable table;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
