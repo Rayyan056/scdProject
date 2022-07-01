@@ -4,7 +4,6 @@ package classesAndInterfaces;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author Hp 820
@@ -19,10 +18,10 @@ public class ShowRoom extends UnicastRemoteObject implements ICarShowRoom {
 
     DBConnection connection;
 
-    public ShowRoom() throws RemoteException{
-        
+    public ShowRoom() throws RemoteException {
+
     }
-    
+
     public ShowRoom(DBConnection connection) throws RemoteException {
         super();
         this.connection = connection;
@@ -36,31 +35,35 @@ public class ShowRoom extends UnicastRemoteObject implements ICarShowRoom {
 
     @Override
     public void deleteCar(int id) {
-        connection.deleteData("DELETE FROM Car WHERE id="+id);
+        connection.deleteData("DELETE FROM Car WHERE id=" + id);
     }
 
     @Override
     public void updateCar(Car obj) {
-        String query = "UPDATE CAR SET name ="+String.valueOf(obj.getName())+", model="+ String.valueOf(obj.getModel())+", color="+obj.getColor()+", plateNumber="+obj.getPlateNumber();
+        String query = "UPDATE CAR SET name =" + String.valueOf(obj.getName()) + ", model=" + String.valueOf(obj.getModel()) + ", color=" + obj.getColor() + ", plateNumber=" + obj.getPlateNumber();
         connection.updateData(query);
     }
 
     @Override
-    public ArrayList<Car>  getCars() {
+    public ArrayList<Car> getCars() {
         ResultSet result = connection.getData("SELECT * FROM CAR");
-        ArrayList <Car> cars = new ArrayList<Car>();
-        Car obj = new Car();
+
         try {
-            while(result.next()){
+            ArrayList<Car> cars = new ArrayList<Car>();
+            while (result.next()) {
+                Car obj = new Car();
                 obj.setId(result.getInt("id"));
                 obj.setName(result.getString("name"));
                 obj.setModel(result.getString("model"));
                 obj.setColor(result.getString("color"));
                 obj.setPlateNumber(result.getString("plateNumber"));
-                System.out.println(obj.getName());
                 cars.add(obj);
             }
-            return cars;
+            
+//            for (Car car : cars) {
+//                car.display();
+//            }
+            return (cars);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
