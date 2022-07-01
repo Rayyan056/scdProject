@@ -11,8 +11,8 @@
 import java.rmi.*;
 
 public interface ICarShowRoom extends Remote {
-    public void addCar(int id, String name, String model, String color, String plateNumber) throws RemoteException;
+    public void addCar(Car obj) throws RemoteException;
     public void deleteCar(int id);
-    public void updateCar(int id, String name, String model, String color, String plateNumber);
+    public void updateCar(Car obj);
     public Car getCars();
 }
