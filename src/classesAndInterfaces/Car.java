@@ -1,15 +1,17 @@
 package classesAndInterfaces;
 
+import java.io.Serializable;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author Hp 820
  */
-public class Car {
+public class Car implements Serializable{
+
     private int id;
     private String name;
     private String model;
@@ -32,14 +34,14 @@ public class Car {
         this.plateNumber = plateNumber;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
-    
-    public int getId(){
+
+    public int getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -71,4 +73,14 @@ public class Car {
     public void setPlateNumber(String plateNumber) {
         this.plateNumber = plateNumber;
     }
+
+    public void display() {
+        System.out.println("ID = " + this.id);
+        System.out.println("Name = " + this.name);
+        System.out.println("Model = " + this.model);
+        System.out.println("Color = " + this.color);
+        System.out.println("Plate Number = " + this.plateNumber);
+
+    }
+
 }
