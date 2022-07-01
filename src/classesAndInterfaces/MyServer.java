@@ -4,7 +4,6 @@ package classesAndInterfaces;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author Hp 820
@@ -20,9 +19,13 @@ public class MyServer {
         try {
             Registry registry = LocateRegistry.createRegistry(5000);
             ICarShowRoom stub = new ShowRoom(connection);
+            ICollege collegeStub = new College(connection);
             try {
                 registry.rebind("rmi://localhost:5000/ShowRoom", stub);
                 System.out.println("ShowRoom Server is running....");
+                registry.rebind("rmi://localhost:5000/College", collegeStub);
+                System.out.println("College Server is running....");
+
             } catch (Exception err) {
                 System.err.println(err.getMessage());
             }
