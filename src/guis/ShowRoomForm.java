@@ -51,12 +51,13 @@ public class ShowRoomForm extends javax.swing.JFrame {
             DefaultTableModel model = new DefaultTableModel();
             model = getModel();
             for (Car car : cars) {
-                car.display();
+//                car.display();
                 Object[] obj = new Object[]{car.getId(), car.getName(), car.getModel(), car.getColor(), car.getPlateNumber()};
                 model.addRow(obj);
             }
             table.setModel(model);
         } catch (RemoteException e) {
+            errorLabel.setText(e.getMessage());
             System.err.println(e.getMessage());
         }
 
@@ -115,12 +116,22 @@ public class ShowRoomForm extends javax.swing.JFrame {
                 "ID", "Name", "Model", "Color", "Plate Number"
             }
         ));
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(140, 120, 452, 402);
 
         addButton.setText("Add Car");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
         getContentPane().add(addButton);
         addButton.setBounds(140, 80, 120, 30);
 
@@ -159,11 +170,45 @@ public class ShowRoomForm extends javax.swing.JFrame {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
+        try {
+            ShowRoomClient client = new ShowRoomClient();
+            ICarShowRoom showRoomStub = client.getStub();
+            showRoomStub.deleteCar(idSelected);
+            getCars();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            errorLabel.setText(e.getMessage());
+        }
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+        AddCarForm obj = new AddCarForm();
+        this.dispose();
+        obj.setVisible(true);
+    }//GEN-LAST:event_addButtonActionPerformed
+    int idSelected = -1;
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        try {
+
+            buttonsEnabled(true);
+            int row = table.getSelectedRow();
+            int id = Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
+            idSelected = id;
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            errorLabel.setText(e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_tableMouseClicked
 
     /**
      * @param args the command line arguments
