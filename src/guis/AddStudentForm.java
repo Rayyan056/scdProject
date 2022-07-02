@@ -77,13 +77,13 @@ public class AddStudentForm extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("NSimSun", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Show Room ");
+        jLabel1.setText("College");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(281, 11, 189, 42);
+        jLabel1.setBounds(281, 11, 134, 42);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Add Car");
+        jLabel2.setText("Add Student");
         getContentPane().add(jLabel2);
         jLabel2.setBounds(310, 60, 180, 22);
 
@@ -166,7 +166,7 @@ public class AddStudentForm extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        ShowRoomForm obj = new ShowRoomForm();
+        CollegeForm obj = new CollegeForm();
         this.dispose();
         obj.setVisible(true);
     }//GEN-LAST:event_backButtonActionPerformed
