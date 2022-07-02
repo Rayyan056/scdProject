@@ -8,7 +8,6 @@ package classesAndInterfaces;
  *
  * @author Hp 820
  */
-
 import java.rmi.*;
 import java.rmi.server.*;
 import java.sql.ResultSet;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class College extends UnicastRemoteObject implements ICollege {
+
     DBConnection connection;
 
     public College() throws RemoteException {
@@ -29,18 +29,18 @@ public class College extends UnicastRemoteObject implements ICollege {
 
     @Override
     public void addStudent(Student obj) {
-        String status = connection.insertData("INSERT INTO Student(firstName, lastName, regNumber, age, semesterNumber) VALUES " + "('" + obj.getFirstName() + "','" + obj.getLastName()+ "','" + obj.getRegNumber()+ "','" + obj.getAge()+ "','" + obj.getSemesterNumber()+ "')");
+        String status = connection.insertData("INSERT INTO Student(firstName, lastName, regNumber, age, semesterNumber) VALUES " + "('" + obj.getFirstName() + "','" + obj.getLastName() + "','" + obj.getRegNumber() + "','" + obj.getAge() + "','" + obj.getSemesterNumber() + "')");
         System.out.println(status);
     }
 
     @Override
     public void deleteStudent(String regNumber) {
-        connection.deleteData("DELETE FROM Student WHERE regNumber=" + regNumber);
+        connection.deleteData("DELETE FROM Student where regNumber= " + regNumber);
     }
 
     @Override
     public void updateStudent(Student obj) {
-        String query = "UPDATE Student SET firstName =" + String.valueOf(obj.getFirstName()) + ", lastName=" + String.valueOf(obj.getLastName()) + ", regNumber=" + obj.getRegNumber()+ ", age=" + obj.getAge()+ ", semesterNumber=" + obj.getSemesterNumber();
+        String query = "UPDATE Student SET firstName =" + String.valueOf(obj.getFirstName()) + ", lastName=" + String.valueOf(obj.getLastName()) + ", regNumber=" + obj.getRegNumber() + ", age=" + obj.getAge() + ", semesterNumber=" + obj.getSemesterNumber();
         connection.updateData(query);
     }
 
