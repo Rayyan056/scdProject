@@ -167,12 +167,15 @@ public class CollegeForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    String regNumberSelected = "";
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
         try {
             CollegeClient client = new CollegeClient();
             ICollege collegeStub = client.getStub();
+            System.out.println(regNumberSelected);
+
             collegeStub.deleteStudent(regNumberSelected);
             getStudents();
         } catch (Exception e) {
@@ -192,14 +195,13 @@ public class CollegeForm extends javax.swing.JFrame {
         this.dispose();
         obj.setVisible(true);
     }//GEN-LAST:event_addButtonActionPerformed
-    String regNumberSelected = "";
     private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
         // TODO add your handling code here:
         try {
 
             buttonsEnabled(true);
             int row = table.getSelectedRow();
-             regNumberSelected = table.getModel().getValueAt(row, 3).toString();
+            regNumberSelected = table.getModel().getValueAt(row, 3).toString();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             errorLabel.setText(e.getMessage());
